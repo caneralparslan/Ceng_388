@@ -40,7 +40,7 @@ else if(is_array($_GET) && count($_GET) > 0 && isset($_GET['Shipped'])) {
 	$qry = "UPDATE `tbl_order` SET `tbl_order`.`od_status` = 'Shipped' ";
 	$result = mysqli_query($link,$qry);
 	if($result) {
-		$_SESSION['MSGS'] = array('Successful changed status to New.');
+		$_SESSION['MSGS'] = array('Successfully changed status to New.');
 		session_write_close();
 		header("location: index.php");
 		exit();
@@ -52,7 +52,7 @@ else if(is_array($_GET) && count($_GET) > 0 && isset($_GET['Completed'])) {
 	$qry = "UPDATE `tbl_order` SET `tbl_order`.`od_status` = 'Completed' ";
 	$result = mysqli_query($link,$qry);
 	if($result) {
-		$_SESSION['MSGS'] = array('Successful changed status to Completed.');
+		$_SESSION['MSGS'] = array('Successfully changed status to Completed.');
 		session_write_close();
 		header("location: index.php");
 		exit();
@@ -64,7 +64,7 @@ else if(is_array($_GET) && count($_GET) > 0 && isset($_GET['Cancelled'])) {
 	$qry = "UPDATE `tbl_order` SET `tbl_order`.`od_status` = 'Cancelled' ";
 	$result = mysqli_query($link,$qry);
 	if($result) {
-		$_SESSION['MSGS'] = array('Successful changed status to Cancelled.');
+		$_SESSION['MSGS'] = array('Successfully changed status to Cancelled.');
 		session_write_close();
 		header("location: index.php");
 		exit();
