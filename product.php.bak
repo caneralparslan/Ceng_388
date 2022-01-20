@@ -47,7 +47,7 @@ include 'includes/profile-data.php';
     <div class="container">
       <div class="row">
         <div class="col-md-4">
-          <img src="img/uploads/<?php echo $product->pd_image; ?>" class="img-responsive" width="200" height="200">
+          <img src="img/uploads/<?php echo $product->pd_image; ?>" class="img-responsive">
         </div>
         <div class="col-md-8">
           <h3><?php echo $product->pd_name ?></h3>
