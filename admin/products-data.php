@@ -1,0 +1,147 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once(__DIR__.'/../config.php');
+$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+if (!$link) {
+	die("Cannot access db.");
+}
+
+$db = mysqli_select_db($link,DB_DATABASE);
+if(!$db) {
+	die("Unable to select database");
+}
+$products;
+
+$res = mysqli_query($link,"SELECT `tbl_product`.*,`tbl_category`.`cat_name`
+					FROM `tbl_product`
+					INNER JOIN `tbl_category`
+					ON `tbl_product`.`cat_id`=`tbl_category`.`cat_id`");
+while ($row = mysqli_fetch_object($res)) {
+	$products[] = $row;
+}
+
+
+if(is_array($_POST) && count($_POST) > 0) {
+	$proname = $_POST['proname'];
+	$prodesc = htmlspecialchars($_POST['prodesc']);
+	$category = intval($_POST['category']);
+	$price = $_POST['price'];
+	$quantity = intval($_POST['quantity']);
+	$proimage = $_FILES["proimage"];
+
+	$errflag = false;
+	
+	function valid($ptype)
+	{
+		
+		$valid_types = array("image/jpg", "image/jpeg", "image/png", "image/gif");
+		
+		
+		if (in_array($ptype, $valid_types))
+			return 1;
+		else
+			return 0;
+	}
+
+	if($proname == '') {
+		$errmsg_arr[] = 'Product name missing';
+		$errflag = true;
+	}
+	if($category == '') {
+		$errmsg_arr[] = 'Category missing';
+		$errflag = true;
+	}
+	if($price == '') {
+		$errmsg_arr[] = 'Price missing';
+		$errflag = true;
+	}
+	if($quantity == '') {
+		$errmsg_arr[] = 'Quantity missing';
+		$errflag = true;
+	}
+	if($proimage["tmp_name"] == '') {
+		$errmsg_arr[] = 'Please upload an image';
+		$errflag = true;
+	}
+
+	if($errflag) {
+		$_SESSION['ERRMSG_ARR'] = $errmsg_arr;
+		session_write_close();
+		header("location: index.php");
+		exit();
+	}
+
+	if (!valid($proimage['type']))
+	{
+		$_SESSION['ERRMSG_ARR'] = array('You must upload a JPEG, JPG or PNG.');
+		header("Location: index.php");
+		exit();
+	}
+
+
+
+	$TARGET_PATH = __DIR__.'/../'."img/uploads/";
+	$TARGET_PATH = $TARGET_PATH . basename( $proimage['name']);
+
+
+	if(move_uploaded_file($proimage['tmp_name'], $TARGET_PATH))
+	{
+		
+		$qry = "INSERT INTO `tbl_product` ( `cat_id`, `pd_name`, `pd_description`, `pd_price`, `pd_qty`, `pd_image`)
+				VALUES($category, '$proname', '$prodesc', $price, $quantity, '".$proimage["name"]."')";
+		$result = @mysqli_query($link,$qry);
+		
+		if($result) {
+			$_SESSION['MSGS'] = array('Changes were successful.');
+			session_write_close();
+			header("location: index.php");
+			exit();
+		} else {
+			die("Query failed: ".mysqli_error($link));
+		}
+	}
+	else
+	{
+		
+		print_r($TARGET_PATH);
+		$_SESSION['ERRMSG_ARR'] = array('Could not upload file.  Check read/write persmissions on the directory');
+		header("Location: index.php");
+		exit();
+	}
+}
+
+if(is_array($_GET) && count($_GET) > 0 && isset($_GET['delete'])) {
+	$pd_id = $_GET['delete'];	
+	
+	$od_id= "`tbl_order`.`od_id`";
+	
+	$qry = "DELETE FROM `tbl_order`
+			WHERE od_id=".$od_id;
+	$result = @mysqli_query($link,$qry);
+	
+	$od_id2="`tbl_order_item`.`od_id`";
+	
+	$qry = "DELETE FROM `tbl_order_item`
+			WHERE od_id=".$od_id2;
+	$result1 = @mysqli_query($link,$qry);
+	
+	$qry = "DELETE FROM `tbl_product`
+			WHERE pd_id=".$pd_id;
+	$result2 = mysqli_query($link,$qry);
+	
+	if($result && $result1 && $result2) {
+		$_SESSION['MSGS'] = array('Changes were successful.');
+		session_write_close();
+		header("location: index.php");
+		exit();
+	}else {
+		$_SESSION['ERRMSG_ARR'] = array('<strong>Oh no!</strong> Changes didn\'t happen, make sure your database is up.');
+		session_write_close();
+		header("location: index.php");
+		exit();
+	}
+}
+?>
