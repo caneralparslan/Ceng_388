@@ -61,6 +61,7 @@ include 'includes/profile-data.php';
         </div>
         <div class="col-md-7">
 		<?php
+		if(isset($user)){
 		if(strcmp($user['user_name'], 'admin') != 0){
 			?>
           <h4>Orders</h4>
@@ -118,7 +119,7 @@ include 'includes/profile-data.php';
             <div class="alert alert-warning">We didn't find any order placed by you.</div>
           <?php } ?>
         </div>
-		  <?php } ?>
+		<?php }} ?>
       </div>
     </div>
 </div>

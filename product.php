@@ -57,10 +57,11 @@ include 'includes/profile-data.php';
           <p><?php echo $product->pd_description ?  $product->pd_description : '<span class="text-muted">No description</span>'; ?></p>
           <p>Available Quantity: <span class="badge"><?php echo $product->pd_qty ?></span></p>
 		  <?php 
-			if(strcmp($user['user_name'], 'admin') != 0){ ?>
-				<a href="cart.php?add=<?php echo $product->pd_id; ?>" class="btn btn-primary">Add to Cart<br></a>
-			<?php
-			}
+			if(isset($user)){
+				if(strcmp($user['user_name'], 'admin') != 0){ ?>
+					<a href="cart.php?add=<?php echo $product->pd_id; ?>" class="btn btn-primary">Add to Cart<br></a>
+				<?php
+			}	}
 			?>
         </div>
       </div>
