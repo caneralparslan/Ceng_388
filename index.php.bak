@@ -47,15 +47,15 @@ include 'includes/nav.php';
         </div>
         <div class="col-sm-3 col-xs-6 text-center">
 			<a> Salads </a><br>
-        	<a href="store.php?category=22"><img src="img/salads.jpg" alt=""></a>
+        	<a href="store.php?category=14"><img src="img/salads.jpg" alt=""></a>
         </div>
         <div class="col-sm-3 col-xs-6 text-center">
 			<a> Desserts </a><br>
-        	<a href="store.php?category=19"><img src="img/desserts.jpg" alt=""></a>
+        	<a href="store.php?category=15"><img src="img/desserts.jpg" alt=""></a>
         </div>
         <div class="col-sm-3 col-xs-6 text-center">
 			<a> Beverages </a><br>
-        	<a href="store.php?category=21"><img src="img/beverages.jpg" alt=""></a>
+        	<a href="store.php?category=16"><img src="img/beverages.jpg" alt=""></a>
         </div>
       </div>
     </div>
