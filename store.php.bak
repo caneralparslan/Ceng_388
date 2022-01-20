@@ -67,7 +67,7 @@ else
           ?>
           <div class="col-sm-6 col-md-3">
             <div class="thumbnail">
-              <img src="img/uploads/<?php echo $product->pd_image ?>" alt="<?php echo $product->pd_name ?>" width="200" height="200">
+              <img src="img/uploads/<?php echo $product->pd_image ?>" alt="<?php echo $product->pd_name ?>">
               <div class="caption">
                 <h4 class="text-center"><?php echo $product->pd_name ?></h4>
                 <!-- <p><?php echo $product->pd_description ?  $product->pd_description : '<span class="text-muted">No description</span>'; ?></p>
