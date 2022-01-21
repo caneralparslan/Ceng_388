@@ -51,7 +51,7 @@ include 'includes/nav.php';
 		      </tbody>
 		    </table>
     	</div>
-	    <?php 
+	    <?php }
 	    else
 	    {
 	      echo '<div class="alert alert-info">Oh no! Add something to your cart from the Store.</div>';
